@@ -1,0 +1,12 @@
+# additional folders
+.chalice/deployments/
+.chalice/deployed/
+.vscode
+vendor/
+
+# sensetive
+.chalice/config.json
+
+# python arifacts
+__pycache__/
+*.pyc
