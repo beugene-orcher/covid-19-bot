@@ -1,32 +1,34 @@
-**covid19bot** is an serverless-lambda web application based on AWS Services: Lambda, DynamoDB, API Gateway, SNS for grabbing data from official coronavirus sources, processing data and sending results to Telegram bot or retrieving by HTTP JSON API.
+**covid19bot** is a AWS Lambda application based on AWS Services: Lambda, DynamoDB, API Gateway, SNS, CloudWatch for grabbing official coronavirus sources, processing and storing in a database. It provides an HTTP JSON API and Telegram API for returning results.
 
 The project is in progress.
 
 ## Installation
 
 Local environment:
-1) install dependencies from `requirements.txt`.
-2) run `chalice local`.
+1) create AWS account and set AWS credentials (__https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html__)
+2) run `cp .chalice/config.json.template .chalice/config.json`
+3) create and activate a virtualenv
+4) install dependencies from `requirements.txt`
+5) run create-aws-schema.py (creates required artefacts, is used only for initializing before a first launch)
+6) run `chalice local`
 
 By default, chalice is starting on *http://127.0.0.1:8000*
-The local environment is limited in API Telegram and AWS SNS. If you need to test it local, then additionally. install **pyngrok**.
+The local environment is limited but provides HTTP JSON API for some actions.
 
 AWS environment:
-1) install challice by `pip3 install chalice`
+1) create AWS account and set AWS credentials (__https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html__)
 2) run `cp .chalice/config.json.template .chalice/config.json`
-3) set AWS credentials by __https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html__
-4) install vendor dependencies `pip3 install tornado==6.0.4 -p vendor` (AWS Lambda doesn't support the package for building, but it can be changed in the future)
-5) (optional) get telegram token by @botfarther and set it in `.chalice/config.json`
-6) run `chalice deploy`
+3) create and activate a virtualenv
+4) install dependencies from `requirements.txt`
+5) install vendor dependencies `pip3 install tornado==6.0.4 -p vendor` (AWS Lambda doesn't support the package for building, but it can be changed in the future)
+6) (optional) set telegram token issued by @botfather in `.chalice/config.json`
+7) run `chalice deploy`
 
-By default, chalice shows you the resources which were deployed and Rest API URL (public URL of AWS API Gateway).
+By default, the chalice shows you the resources which were deployed and API URL in AWS API Gateway.
 
-## Description
+## Telefram integration
 
-AWS Lambda is a serverless and stateless service . Unfortunately, the project can work only with AWS Serveless, because the specific dependencies are including. All developed API endpoints will be deployed in Lambda.
-
-AWS API Gateway is a service to deploy your endpoints. You can check this one after __deploying__, the public endpoint root will be `/api` (described in `config.json`).
-
-AWS SNS is a notification service. Topics must be created by management API by manual.
-
-DynamoDB is no-sql database. Tables must be created by management API by manual.
+If you want to connect the application to telegram:
+1) set telegram token issued by @botfather in `.chalice/config.json`
+2) after deploying, send a HTTP POST request to `{server}/{api_gateway_stage}/mgmt/webhook
+Notic: {server} is running by your `chalice deploy` and {api_gateway_stage} is declared in `.chalice/config.json` (`api` by default).

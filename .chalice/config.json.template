@@ -1,23 +1,26 @@
 {
   "version": "2.0",
-  "app_name": "covid-19-bot",
+  "app_name": "covid-19-bot-v4",
   "stages": {
     
     "dev": {
       "api_gateway_stage": "api",
+      "autogen_policy": false,
+      "iam_role_arn": "arn:aws:iam::<account-id>:role/<role-name>",
       "environment_variables": {
-        "DEBUG": true,
-        "TG_TOKEN": "YOUR_TELEGRAM_TOKEN'
+        "DEBUG": "True",
+        "TG_TOKEN": "YOUR_TELEGRAM_TOKEN"
       }
     }
 
     "prod": {
-        "api_gateway_stage": "api",
-        "environment_variables": {
-          "DEBUG": "False",
-          "TG_TOKEN": "YOUR_TELEGRAM_TOKEN'
+      "api_gateway_stage": "api",
+      "autogen_policy": false,
+      "iam_role_arn": "arn:aws:iam::<account-id>:role/<role-name>",
+      "environment_variables": {
+        "DEBUG": "False",
+        "TG_TOKEN": "YOUR_TELEGRAM_TOKEN"
       }
-    }
-    
+    }  
   }
 }

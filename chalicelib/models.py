@@ -2,16 +2,14 @@ from logging import getLogger
 from datetime import datetime, date
 from json import dumps as json_dumps
 
-from chalicelib.configer import (
-    APP_NAME
-)
+from chalicelib.configer import APP_NAME
 
 
 lg = getLogger(f'{APP_NAME}.{__name__}')
 
 
 class BaseCovidModel(object):
-    __default_actual_date = date.fromtimestamp(0).isoformat()
+    __default_actual_date = date.fromtimestamp(0).isoformat().split('T')[0]
     actual_date = __default_actual_date
     __default_region = 'unknown'
     region = __default_region
@@ -36,10 +34,10 @@ class BaseCovidModel(object):
         self.request_datetime = datetime.utcnow().isoformat()
 
     def set_actual_date(self, dt):
-        self.actual_date = datetime.fromtimestamp(dt).isoformat()
+        self.actual_date = datetime.fromtimestamp(dt).isoformat().split('T')[0]
 
     def set_region(self, region):
-        self.region(region)
+        self.region = region
 
     def __str__(self):
         if 'to_dict' in dir(self):
@@ -65,19 +63,16 @@ class CovidCase(BaseCovidModel):
                 lg.warn(e)
 
     def to_dict(self):
-        model_dict = {
-            'model': {
+        return {
+            'case': {
                 'region': self.region,
                 'actual_date': self.actual_date,
                 'case_new': self.case_new,
                 'death_new': self.death_new,
-                'recovered_new': self.recovered_new
-            },
-            'meta': {
+                'recovered_new': self.recovered_new,
                 'request_datetime': self.request_datetime
             }
         }
-        return model_dict
 
 
 class CovidTotalCases(BaseCovidModel):
@@ -98,14 +93,12 @@ class CovidTotalCases(BaseCovidModel):
 
     def to_dict(self):
         return {
-            'model': {
+            'total': {
                 'region': self.region,
                 'actual_date': self.actual_date,
                 'case_total': self.case_total,
                 'death_total': self.death_total,
-                'recovered_total': self.recovered_total
-            },
-            'meta': {
+                'recovered_total': self.recovered_total,
                 'request_datetime': self.request_datetime
             }
         }

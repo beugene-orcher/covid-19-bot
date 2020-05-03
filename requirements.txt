@@ -1,4 +1,5 @@
 attrs==19.3.0
+beautifulsoup4==4.9.0
 boto3==1.12.43
 botocore==1.15.43
 certifi==2020.4.5.1
@@ -20,6 +21,7 @@ python-telegram-bot==12.6.1
 requests==2.23.0
 s3transfer==0.3.3
 six==1.14.0
+soupsieve==2.0
 tornado==6.0.4
 typing==3.6.4
 urllib3==1.25.9
