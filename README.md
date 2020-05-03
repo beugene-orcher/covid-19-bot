@@ -26,7 +26,7 @@ AWS environment:
 
 By default, the chalice shows you the resources which were deployed and API URL in AWS API Gateway.
 
-## Telefram integration
+## Telegram integration
 
 If you want to connect the application to telegram:
 1) set telegram token issued by @botfather in `.chalice/config.json`
