@@ -7,3 +7,7 @@ def get_base_url(request):
     stage = 'api'
     region = 'eu-north-1'
     return f'https://{gapi_id}.execute-api.{region}.amazonaws.com/{stage}'
+
+
+def clean_message(message):
+    return message.lower().replace(" ", "").replace("\n", "")

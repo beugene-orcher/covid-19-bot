@@ -12,13 +12,16 @@ DEBUG = True if not environ.get('DEBUG') else bool(environ['DEBUG'])
 
 # AWS VARIABLES
 SNS_TOPIC_FOR_COVID_CASES = "CovidCasesNotifications"
+SNS_TOPIC_FOR_SUBSCRIPTIONS = "CovidCasesSubscriptions"
+SNS_TOPIC_FOR_BOT_NOTIFICATIONS = "CovidCasesBotNotifications"
 DDB_CONFIG_TABLE_NAME = 'config'
-DDB_CASES_TABLE_NAME = 'cases'
-DDB_TOTAL_TABLE_NAME = 'total'
+DDB_CASES_TABLE_NAME = 'region_cases'
+DDB_TOTAL_TABLE_NAME = 'region_total'
+DDB_SUBSCRIPTIONS_TABLE_NAME = 'subscriptions'
 
 # SOURCES
 REGIONS = ['russia']
-MAX_DEEP_DAY = 15
+COVID_TYPE_EVENTS = ['EVENT_TOTAL_CASES', 'EVENT_NEW_CASES']
 
 # RUSSIA SOURCE
 RUSSIA_OFFICIAL_URL = 'https://xn--80aesfpebagmfblc0a.xn--p1ai/information/'

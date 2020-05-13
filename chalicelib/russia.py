@@ -6,7 +6,7 @@ from json import loads as json_loads
 from requests import get
 from bs4 import BeautifulSoup
 
-from chalicelib.models import CovidCase, CovidTotalCases
+from chalicelib.models import CovidCase
 from chalicelib.configer import (
     APP_NAME,
     RUSSIA_OFFICIAL_URL
@@ -41,30 +41,26 @@ class RussiaOfficialSource(object):
     def parse_data(self, content):
         """Parsing given content"""
         soup = BeautifulSoup(content, 'lxml')
-        model_today, model_total = CovidCase(), CovidTotalCases()
         datestr = soup.find('h1', {"class": "cv-section__title"}).text
         data = json_loads(soup.find('cv-stats-virus').attrs[':stats-data'])
+
         actual_date = self.__extract_date(datestr)
 
-        model_today.set_actual_date(actual_date)
-        model_total.set_actual_date(actual_date)
-
-        model_today.pop(
+        model_today = CovidCase(
             self._i(data['sickChange']),
             self._i(data['healedChange']),
-            self._i(data['diedChange'])
+            self._i(data['diedChange']),
+            region='russia',
+            actual_date=actual_date
         )
-        model_total.pop(
+        model_total = CovidCase(
             self._i(data['sick']),
             self._i(data['healed']),
-            self._i(data['died'])
+            self._i(data['died']),
+            region='russia',
+            actual_date=actual_date,
+            event='total'
         )
-
-        model_today.set_request_datetime()
-        model_total.set_request_datetime()
-        model_today.set_region(self.region_name)
-        model_total.set_region(self.region_name)
-
         return model_today.self_validate(), model_total.self_validate()
 
     def __extract_date(self, datestr):

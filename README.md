@@ -1,11 +1,11 @@
-**covid19bot** is a AWS Lambda application based on AWS Services: Lambda, DynamoDB, API Gateway, SNS, CloudWatch for grabbing official coronavirus sources, processing and storing in a database. It provides an HTTP JSON API and Telegram API for returning results.
+**covid19bot** is a serverless application based on AWS Services: Lambda, DynamoDB, API Gateway, SNS, CloudWatch for grabbing data from official coronavirus sources, processing and storing their. It provides an HTTP JSON API and Telegram API for showing results. The Telegram API is optional and you can run the application without Telegram bot. The application is powered by Chalice framework (provided by AWS) and can be deployed without any manual operations.
 
 The project is in progress.
 
 ## Installation
 
 Local environment:
-1) create AWS account and set AWS credentials (__https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html__)
+1) create an AWS account and set AWS credentials (__https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html__)
 2) run `cp .chalice/config.json.template .chalice/config.json`
 3) create and activate a virtualenv
 4) install dependencies from `requirements.txt`
@@ -26,9 +26,11 @@ AWS environment:
 
 By default, the chalice shows you the resources which were deployed and API URL in AWS API Gateway.
 
+Notice: if you need to fix the IAM Policy then edit `.chalice/policy-dev.json`. There is kept all required policies. Chalice will create IAM roles based on this config.
+
 ## Telegram integration
 
-If you want to connect the application to telegram:
-1) set telegram token issued by @botfather in `.chalice/config.json`
-2) after deploying, send a HTTP POST request to `{server}/{api_gateway_stage}/mgmt/webhook
-Notic: {server} is running by your `chalice deploy` and {api_gateway_stage} is declared in `.chalice/config.json` (`api` by default).
+If you want to connect the application to Telegram bot:
+1) set a telegram token issued by @botfather in `.chalice/config.json`
+2) after deploying, send an HTTP POST request to `{server}/{api_gateway_stage}/mgmt/webhook (you can also do this in AWS Console -> API Gateway).
+Notice: {server} will be given the name after running `chalice deploy` and {api_gateway_stage} is declared in `.chalice/config.json` (`api` is a default value).
